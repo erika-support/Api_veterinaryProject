@@ -1,13 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 
-import {
-  Login,
-  Register,
-  VeterinaryAdmin,
-  Users,
-  Scheduling,
-} from "./pages";
+import { Login, Register, VeterinaryAdmin, Users, Scheduling } from "./pages";
 
 const App = () => {
   return (
