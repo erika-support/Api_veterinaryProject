@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   AppBar,
   Toolbar,
@@ -7,24 +7,69 @@ import {
   Box,
   Tabs,
   Tab,
+  Divider,
+  Button,
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { Link } from "react-router-dom";
-import Divider from "@mui/material/Divider";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [value, setValue] = React.useState(0);
+interface LayoutProps {
+  children: React.ReactNode;
+  userType: string;
+  setUserType: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState(location.pathname);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUserType("guest");
+    navigate("/login");
+  };
+
+  const tabData = {
+    registeredUser: [
+      { label: "Inicio", to: "/clínica-veterinaria" },
+      { label: "VetNow", to: "/vet-now" },
+      { label: "Cuenta", to: "/account" },
+    ],
+    veterinarian: [
+      { label: "Inicio", to: "/clínica-veterinaria" },
+      { label: "VetManager", to: "/vet-manager" },
+      { label: "Cuenta", to: "/account" },
+    ],
+    default: [
+      { label: "Inicio", to: "/clínica-veterinaria" },
+      { label: "Login", to: "/login" },
+      { label: "Registro", to: "/register" },
+    ],
+  };
+
+  const renderTabs = () => {
+    return (tabData[userType] || tabData.default).map((tab, index) => (
+      <Tab
+        key={index}
+        label={tab.label}
+        component={Link}
+        to={tab.to}
+        value={tab.to}
+      />
+    ));
   };
 
   return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: "#4caf50" }}>
-        <Toolbar sx={{ height: 100, alignItems: "center" }}>
+        <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="logo">
             <PetsIcon />
           </IconButton>
@@ -35,12 +80,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             onChange={handleChange}
             textColor="inherit"
             indicatorColor="primary"
+            aria-label="navigation tabs"
           >
-            <Tab label="Inicio" component={Link} to="/" />
-            <Tab label="Login" component={Link} to="/login" />
-            <Tab label="Registro" component={Link} to="/register" />
-            <Tab label="Usuarios" component={Link} to="/users" />
+            {renderTabs()}
           </Tabs>
+          {userType !== "guest" && (
+            <Button color="inherit" onClick={handleLogout}>
+              Cerrar Sesión
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -65,6 +113,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             target="_blank"
             rel="noopener"
             color="inherit"
+            aria-label="Instagram"
           >
             <InstagramIcon />
           </IconButton>
@@ -74,6 +123,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             target="_blank"
             rel="noopener"
             color="inherit"
+            aria-label="Facebook"
           >
             <FacebookIcon />
           </IconButton>
@@ -121,4 +171,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Layout;
+export default memo(Layout);

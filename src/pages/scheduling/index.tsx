@@ -1,76 +1,109 @@
-import React, { useState, useCallback } from "react";
-import { TextField, Button, Box, Card, CardContent } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import { Pet } from "./s"; // Asegúrate de importar la interfaz Pet
 
-interface Horario {
-  fecha: string;
-  hora: string;
+interface Appointment {
+  petName: string;
+  date: string;
+  time: string;
 }
 
-const DefinirDisponibilidad: React.FC = () => {
-  const [disponibilidad, setDisponibilidad] = useState<Horario[]>([]);
+interface AppointmentSchedulerProps {
+  pets: Pet[];
+}
 
-  const agregarHorario = useCallback(() => {
-    setDisponibilidad((prevDisponibilidad) => [
-      ...prevDisponibilidad,
-      { fecha: "", hora: "" },
-    ]);
-  }, []);
+const AppointmentScheduler: React.FC<AppointmentSchedulerProps> = ({ pets }) => {
+  const [selectedPet, setSelectedPet] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  const manejarCambio = useCallback(
-    (index: number, campo: keyof Horario, valor: string) => {
-      setDisponibilidad((prevDisponibilidad) => {
-        const nuevaDisponibilidad = [...prevDisponibilidad];
-        nuevaDisponibilidad[index][campo] = valor;
-        return nuevaDisponibilidad;
-      });
-    },
-    []
-  );
-
-  const guardarDisponibilidad = useCallback(() => {
-    // Aquí guardarías la disponibilidad en la base de datos
-    console.log(disponibilidad);
-  }, [disponibilidad]);
+  const handleScheduleAppointment = () => {
+    if (selectedPet && date && time) {
+      setAppointments([...appointments, { petName: selectedPet, date, time }]);
+      setSelectedPet("");
+      setDate("");
+      setTime("");
+    }
+  };
 
   return (
-    <Card>
-      <CardContent>
-        <h2>Definir Disponibilidad</h2>
-        {disponibilidad.map((horario, index) => (
-          <Box display="flex" justifyContent="space-between" key={index} mb={2}>
-            <Box flex={1} mr={1}>
-              <TextField
-                label="Fecha"
-                type="date"
-                value={horario.fecha}
-                onChange={(e) => manejarCambio(index, "fecha", e.target.value)}
-                fullWidth
-              />
-            </Box>
-            <Box flex={1} ml={1}>
-              <TextField
-                label="Hora"
-                type="time"
-                value={horario.hora}
-                onChange={(e) => manejarCambio(index, "hora", e.target.value)}
-                fullWidth
-              />
-            </Box>
-          </Box>
+    <Box sx={{ p: 3, maxWidth: 600, mx: "auto", backgroundColor: "#f9f9f9", borderRadius: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        Agendar Cita
+      </Typography>
+
+      <Box sx={{ mb: 3 }}>
+        <FormControl fullWidth sx={{ mb: 2 }}>
+          <InputLabel>Mascota</InputLabel>
+          <Select
+            value={selectedPet}
+            onChange={(e) => setSelectedPet(e.target.value as string)}
+            label="Mascota"
+          >
+            {pets.map((pet, index) => (
+              <MenuItem key={index} value={pet.name}>
+                {pet.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          label="Fecha"
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          label="Hora"
+          type="time"
+          value={time}
+          onChange={(e) => setTime(e.target.value)}
+          fullWidth
+          sx={{ mb: 2 }}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <Button variant="contained" color="primary" onClick={handleScheduleAppointment} fullWidth>
+          Confirmar Cita
+        </Button>
+      </Box>
+
+      <Divider sx={{ my: 3 }} />
+
+      <Typography variant="h5" gutterBottom>
+        Citas Programadas
+      </Typography>
+      <List>
+        {appointments.map((appointment, index) => (
+          <ListItem key={index}>
+            <ListItemText
+              primary={`${appointment.petName} - ${appointment.date} a las ${appointment.time}`}
+            />
+          </ListItem>
         ))}
-        <Button onClick={agregarHorario} variant="contained" color="primary">
-          Agregar Horario
-        </Button>
-        <Button
-          onClick={guardarDisponibilidad}
-          variant="contained"
-          color="secondary"
-        >
-          Guardar Disponibilidad
-        </Button>
-      </CardContent>
-    </Card>
+      </List>
+    </Box>
   );
 };
 
-export default DefinirDisponibilidad;
+export default AppointmentScheduler;
