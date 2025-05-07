@@ -221,11 +221,12 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import huella from "../../assets/huella.png";
-import petIcon from "../../assets/casa-de-mascotas.png"; // Asegúrate de importar tu ícono
+import petIcon from "../../assets/casa-de-mascotas.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const stylesInput: SxProps<Theme> = {
   "& .MuiOutlinedInput-root": {
-    backgroundColor: "#ffffffcc", // blanco semi-transparente
+    backgroundColor: "#ffffffcc",
     borderRadius: "8px",
     boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
     "& fieldset": {
@@ -300,7 +301,7 @@ const Register = () => {
       alignItems="center"
       minHeight="100vh"
       bgcolor="#D0F0C0"
-      sx={{ position: "relative" }} // Esto es para poder posicionar el ícono sobre el formulario
+      sx={{ position: "relative" }} //icono csita form.
     >
       {/* Ícono sobre el formulario */}
       <Box
@@ -415,24 +416,28 @@ const Register = () => {
           Register
         </Button>
 
-        <Link
+        <Button
           component={RouterLink}
           to="/login"
+          startIcon={<ArrowBackIcon />}
           sx={{
             mt: 2,
-            textAlign: "center",
-            width: "100%",
             color: "#333",
+            border: "2px solid #388E3C",
             fontWeight: "bold",
-            fontSize: "2rem",
-            textDecoration: "underline",
+            borderRadius: "30px",
+            textTransform: "none",
+            px: 3,
+            py: 1,
+            fontSize: "1rem",
             "&:hover": {
-              color: "#388E3C",
+              backgroundColor: "#E8F5E9",
+              borderColor: "#2e7d",
             },
           }}
         >
-          Back
-        </Link>
+          Volver al login
+        </Button>
       </Stack>
     </Box>
   );

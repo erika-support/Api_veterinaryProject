@@ -24,11 +24,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: "#4caf50" }}>
-        <Toolbar>
+        <Toolbar sx={{ height: 100, alignItems: "center" }}>
           <IconButton edge="start" color="inherit" aria-label="logo">
             <PetsIcon />
           </IconButton>
-          <Typography variant="h6"> Clínica Veterinaria </Typography>
+          <Typography variant="h6">Clínica Veterinaria</Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Tabs
             value={value}

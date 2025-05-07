@@ -1,8 +1,11 @@
-//1)
+//1)---------------------------------------------------------------intento incorporan slider y antes de agregar botn login
 // import React from "react";
 // import { Box, Button, Grid } from "@mui/material";
 // import Slider from "react-slick";
 // import { useNavigate } from "react-router-dom";
+
+// import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+// import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 // import "slick-carousel/slick/slick.css";
 // import "slick-carousel/slick/slick-theme.css";
@@ -19,6 +22,60 @@
 // const Users = () => {
 //   const navigate = useNavigate();
 
+//   const PrevArrow = (props: any) => {
+//     const { onClick } = props;
+//     return (
+//       <Box
+//         onClick={onClick}
+//         sx={{
+//           position: "absolute",
+//           left: "-30px",
+//           top: "50%",
+//           transform: "translateY(-50%)",
+//           zIndex: 1,
+//           cursor: "pointer",
+//           backgroundColor: "#ffffffaa",
+//           borderRadius: "50%",
+//           padding: "6px",
+//           boxShadow: 2,
+//           "&:hover": {
+//             backgroundColor: "#ba68c8",
+//             color: "white",
+//           },
+//         }}
+//       >
+//         <ArrowBackIosIcon />
+//       </Box>
+//     );
+//   };
+
+//   const NextArrow = (props: any) => {
+//     const { onClick } = props;
+//     return (
+//       <Box
+//         onClick={onClick}
+//         sx={{
+//           position: "absolute",
+//           right: "-30px",
+//           top: "50%",
+//           transform: "translateY(-50%)",
+//           zIndex: 1,
+//           cursor: "pointer",
+//           backgroundColor: "#ffffffaa",
+//           borderRadius: "50%",
+//           padding: "6px",
+//           boxShadow: 2,
+//           "&:hover": {
+//             backgroundColor: "#ba68c8",
+//             color: "white",
+//           },
+//         }}
+//       >
+//         <ArrowForwardIosIcon />
+//       </Box>
+//     );
+//   };
+
 //   const settings = {
 //     dots: true,
 //     infinite: true,
@@ -27,6 +84,8 @@
 //     slidesToScroll: 1,
 //     centerMode: true,
 //     centerPadding: "0px",
+//     prevArrow: <PrevArrow />,
+//     nextArrow: <NextArrow />,
 //     responsive: [
 //       {
 //         breakpoint: 960,
@@ -37,7 +96,14 @@
 //     ],
 //   };
 
-//   const images = [vacunacion, estrella, razonesAdop, jornadaAdop];
+//   const images = [
+//     descuento,
+//     vacunacion,
+//     estrella,
+//     razonesAdop,
+//     jornadaAdop,
+//     chunky,
+//   ];
 
 //   return (
 //     <Box
@@ -50,35 +116,11 @@
 //         minHeight: "100vh",
 //       }}
 //     >
-//       <Grid
-//         container
-//         spacing={4}
-//         alignItems="center"
-//         justifyContent="center"
-//         sx={{ flexWrap: "wrap" }}
-//       >
-//         {/* Imagen decorativa izquierda */}
-//         <Grid item xs={12} md={3}>
-//           <Box
-//             component="img"
-//             src={descuento}
-//             alt="Imagen decorativa izquierda"
-//             sx={{
-//               width: "100%",
-//               maxWidth: 400,
-//               maxHeight: 500,
-//               height: "auto",
-//               objectFit: "cover",
-//               borderRadius: 3,
-//               boxShadow: 2,
-//               display: { xs: "none", md: "block" },
-//             }}
-//           />
-//         </Grid>
-
-//         <Grid item xs={12} md={6}>
-//           <Box sx={{ maxWidth: 800, margin: "0 auto" }}>
-//             <Slider {...settings} dotsClass="slick-dots">
+//       {/* Slider */}
+//       <Grid container justifyContent="center">
+//         <Grid item xs={12} md={10}>
+//           <Box sx={{ maxWidth: 1000, margin: "0 auto", position: "relative" }}>
+//             <Slider {...settings}>
 //               {images.map((src, index) => (
 //                 <Box
 //                   key={index}
@@ -94,33 +136,23 @@
 //                     alt={`slide-${index}`}
 //                     sx={{
 //                       width: "100%",
-//                       maxWidth: 250,
+//                       maxWidth: 280,
 //                       height: 300,
 //                       objectFit: "cover",
 //                       borderRadius: 3,
-//                       boxShadow: 2,
+//                       border: "4px solid white",
+//                       boxShadow: 3,
+//                       transition: "transform 0.3s ease, box-shadow 0.3s ease",
+//                       "&:hover": {
+//                         transform: "scale(1.07)",
+//                         boxShadow: 6,
+//                       },
 //                     }}
 //                   />
 //                 </Box>
 //               ))}
 //             </Slider>
 //           </Box>
-//         </Grid>
-
-//         <Grid item xs={12} md={3}>
-//           <Box
-//             component="img"
-//             src={chunky}
-//             alt="Imagen decorativa derecha"
-//             sx={{
-//               width: "100%",
-//               height: "auto",
-//               objectFit: "contain",
-//               borderRadius: 3,
-//               boxShadow: 2,
-//               display: { xs: "none", md: "block" },
-//             }}
-//           />
 //         </Grid>
 //       </Grid>
 
@@ -178,7 +210,6 @@
 
 // export default Users;
 
-//2)---------------------------------------------------------------intento incorporan slider
 import React from "react";
 import { Box, Button, Grid } from "@mui/material";
 import Slider from "react-slick";
@@ -201,6 +232,11 @@ import descuento from "../../assets/descuento.jpg";
 
 const Users = () => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   const PrevArrow = (props: any) => {
     const { onClick } = props;
@@ -296,6 +332,13 @@ const Users = () => {
         minHeight: "100vh",
       }}
     >
+      {/* Botón de cerrar sesión */}
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+        <Button variant="outlined" color="error" onClick={handleLogout}>
+          Cerrar sesión
+        </Button>
+      </Box>
+
       {/* Slider */}
       <Grid container justifyContent="center">
         <Grid item xs={12} md={10}>
@@ -336,6 +379,7 @@ const Users = () => {
         </Grid>
       </Grid>
 
+      {/* Imagen con botón */}
       <Box
         sx={{
           mt: 6,
