@@ -1,54 +1,58 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">🐾 Clínica Veterinaria</h1>
 
-Currently, two official plugins are available:
+<p align="center">
+  Sistema web para agendar y gestionar citas médicas veterinarias.<br/>
+  Veterinarios administran horarios e historial de mascotas, y los usuarios pueden agendar citas una vez registrados.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <img src="https://img.shields.io/badge/frontend-React%2FTypeScript-blue?logo=react" />
+  <img src="https://img.shields.io/badge/backend-Node%2FExpress-green?logo=node.js" />
+  <img src="https://img.shields.io/badge/db-MySQL-blue?logo=mysql" />
+  <img src="https://img.shields.io/badge/styles-MaterialUI-purple?logo=mui" />
+  <img src="https://img.shields.io/badge/tested_with-Postman-orange?logo=postman" />
+</p>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🖥️ Tecnologías Utilizadas
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+| Tecnología      | Descripción                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+**React + Vite**| Frontend moderno en TypeScript                      |
+**Material UI** | Componentes visuales con estilos atractivos         |
+**Axios**      | Cliente HTTP para conexión frontend-backend          |
+**MySQL**      | Base de datos relacional (vía WordPress)             |
+**Postman**    | Pruebas del backend                                  |
+**Node.js + Express** | Servidor backend y APIs                       |
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 👥 Roles del Sistema
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### 👨‍⚕️ Veterinario (Administrador)
+- Crear y gestionar citas disponibles.
+- Consultar el historial médico de todas las mascotas.
+- Registro mediante código secreto.
+
+### 🧑 Usuario
+- Ver contenido informativo de la página.
+- Registrarse, iniciar sesión y agendar citas.
+- Consultar el historial de sus propias mascotas.
+
+---
+
+## 🚀 Funcionalidades
+
+✅ Registro y login de usuarios y veterinarios  
+✅ Asignación de roles con permisos diferenciados  
+✅ Sistema de agenda para citas médicas  
+✅ Consulta del historial clínico de mascotas  
+✅ Interfaz moderna y responsive  
+
+---
+
+## 🧭 Estructura del Proyecto
+
