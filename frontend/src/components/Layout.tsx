@@ -69,11 +69,18 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
 
   return (
     <div>
-      <AppBar position="static" sx={{ backgroundColor: "#4caf50" }}>
-        <Toolbar>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#4caf50",
+          boxShadow: "0 2px 6px rgba(0,0,0,0.15)", // sombra moderna
+        }}
+      >
+        <Toolbar sx={{ minHeight: { xs: 80, sm: 96 }, gap: 2 }}>
           <IconButton edge="start" color="inherit" aria-label="logo">
             <PetsIcon />
           </IconButton>
+
           <Typography
             variant="h6"
             sx={{ mr: 2, fontWeight: "bold", letterSpacing: 1 }}
@@ -84,7 +91,9 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
           >
             Clínica Veterinaria
           </Typography>
+
           <Box sx={{ flexGrow: 1 }} />
+
           {!isMobile ? (
             <Tabs
               value={tabValue}
@@ -99,7 +108,16 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
                   key={index}
                   label={tab.label}
                   value={tab.to}
-                  sx={{ minWidth: 110, fontWeight: "bold" }}
+                  sx={{
+                    minWidth: 110,
+                    fontWeight: "bold",
+                    transition: "0.3s",
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      borderRadius: "6px",
+                    },
+                  }}
                 />
               ))}
             </Tabs>
@@ -115,6 +133,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
               </IconButton>
             </Tooltip>
           )}
+
           {userType !== "guest" && (
             <Button color="inherit" onClick={handleLogout} sx={{ ml: 2 }}>
               Cerrar Sesión
@@ -130,12 +149,14 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
       <Box
         component="footer"
         sx={{
-          p: 2,
+          minHeight: { xs: 200, sm: 240 },
+          p: { xs: 3, sm: 5 },
           backgroundColor: "#AEDFF7",
           color: "#333",
           textAlign: "center",
           mt: 4,
           borderTop: "1px solid #b2ebf2",
+          boxShadow: "0 -2px 6px rgba(0,0,0,0.1)",
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mb: 1 }}>
@@ -147,6 +168,13 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
               rel="noopener"
               color="inherit"
               aria-label="Instagram"
+              sx={{
+                transition: "0.3s",
+                "&:hover": {
+                  transform: "scale(1.2)",
+                  color: "#E1306C",
+                },
+              }}
             >
               <InstagramIcon />
             </IconButton>
@@ -159,12 +187,21 @@ const Layout: React.FC<LayoutProps> = ({ children, userType, setUserType }) => {
               rel="noopener"
               color="inherit"
               aria-label="Facebook"
+              sx={{
+                transition: "0.3s",
+                "&:hover": {
+                  color: "#3b5998",
+                },
+              }}
             >
               <FacebookIcon />
             </IconButton>
           </Tooltip>
         </Box>
-        <Typography variant="body2" sx={{ mb: 1 }}>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 500, fontSize: "0.95rem" }}
+        >
           ¿Quieres saber más sobre nuestra Clínica Veterinaria?
         </Typography>
         <Divider

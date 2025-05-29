@@ -17,12 +17,16 @@ import Appointments from "../../components/Appointments";
 import FinalizarCitaYRegistrarHistorial from "../../components/FinalizarCitaYRegistrarHistorial";
 import { getTodasLasMascotas } from "../../services/mascotasservice";
 import { useLocation } from "react-router-dom";
+import { getVeterinarioPorId } from "../../services/veterinarioService";
 
 const DoctorView = () => {
   const location = useLocation();
   const [openAppointments, setOpenAppointments] = useState(false);
   const [openFinalizar, setOpenFinalizar] = useState(false);
   const [mascotas, setMascotas] = useState<any[]>([]);
+  const [nombreVeterinario, setNombreVeterinario] = useState<string | null>(
+    null
+  );
   const [loadingMascotas, setLoadingMascotas] = useState(true);
   const [errorMascotas, setErrorMascotas] = useState<string | null>(null);
 
@@ -42,7 +46,8 @@ const DoctorView = () => {
     idVeterinario = location.state.idVeterinario;
   }
   // Si no está, usa localStorage legacy o fallback
-  if (!idVeterinario) idVeterinario = Number(localStorage.getItem("idVeterinario")) || null;
+  if (!idVeterinario)
+    idVeterinario = Number(localStorage.getItem("idVeterinario")) || null;
 
   useEffect(() => {
     setLoadingMascotas(true);
@@ -59,8 +64,26 @@ const DoctorView = () => {
       });
   }, []);
 
+  //useEffect para cambiar apellido de bienvenida del veterinario
+  useEffect(() => {
+    if (idVeterinario) {
+      getVeterinarioPorId(idVeterinario)
+        .then((data) => {
+          const nombreCompleto = `Dr. ${data.apellido}`;
+          setNombreVeterinario(nombreCompleto);
+        })
+        .catch((err) => {
+          console.error("Error al obtener nombre del veterinario", err);
+        });
+    }
+  }, [idVeterinario]);
+
   // Mostrar loading global si no tenemos idVeterinario aún
-  if (!idVeterinario || typeof idVeterinario !== "number" || idVeterinario <= 0) {
+  if (
+    !idVeterinario ||
+    typeof idVeterinario !== "number" ||
+    idVeterinario <= 0
+  ) {
     return (
       <Box
         p={4}
@@ -105,7 +128,9 @@ const DoctorView = () => {
           width: "100%",
         }}
       >
-        Bienvenido, Dr. Ramírez 👨🏻‍⚕🩺
+        {nombreVeterinario
+          ? `Bienvenido, ${nombreVeterinario} 👨🏻‍⚕🩺`
+          : "Bienvenido 👨🏻‍⚕🩺"}
       </Typography>
 
       <Divider sx={{ width: "100%", mb: 4 }} />
@@ -113,7 +138,12 @@ const DoctorView = () => {
       <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12} md={6}>
           {loadingMascotas ? (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight={160}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              minHeight={160}
+            >
               <CircularProgress size={32} />
             </Box>
           ) : errorMascotas ? (
@@ -138,9 +168,10 @@ const DoctorView = () => {
             }}
           >
             <CardContent sx={{ flexGrow: 1 }}>
-              <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-                ¿Deseas ver las próximas citas?
-              </Typography>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", mb: 2 }}
+              ></Typography>
               <CardMedia
                 component="img"
                 image={agendadr}
@@ -164,7 +195,7 @@ const DoctorView = () => {
               <Button
                 fullWidth
                 variant="outlined"
-                color="secondary"
+                color="error"
                 sx={{ mt: 2 }}
                 onClick={() => setOpenFinalizar(true)}
               >

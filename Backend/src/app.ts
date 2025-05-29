@@ -10,28 +10,32 @@ import citasRoutes from './routes/citas.routes';
 import historialRoutes from './routes/historial.routes';
 import { errorHandler } from './middlewares/error.middleware';
 import catalogoRoutes from './routes/catalogo.routes';
+import veterinariosRoutes from "./routes/veterinarios.routes";
 
 dotenv.config();
 
 const app = express();
 
 // CORS configurado para permitir peticiones desde el frontend
-app.use(cors({
- origin: 'http://localhost:5173',
- credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Middlewares
 app.use(express.json());
 
 // Rutas
-app.use('/api/auth', authRoutes);
-app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/mascotas', mascotasRoutes);
-app.use('/api/horarios', horariosRoutes);
-app.use('/api/citas', citasRoutes);
-app.use('/api/historial', historialRoutes);
-app.use('/api/catalogo', catalogoRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/mascotas", mascotasRoutes);
+app.use("/api/horarios", horariosRoutes);
+app.use("/api/citas", citasRoutes);
+app.use("/api/historial", historialRoutes);
+app.use("/api/catalogo", catalogoRoutes);
+app.use("/api/veterinarios", veterinariosRoutes);
 
 // Ruta raíz
 app.get('/', (_req, res) => {
